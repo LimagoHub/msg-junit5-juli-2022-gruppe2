@@ -57,4 +57,31 @@ class StapelTest {
             assertThat(objectUnderTest.isFull()).isFalse();
         }
     }
+
+    @Nested
+    @DisplayName("Tests zur Methode push")
+    class pushTests {
+        @Test
+        @DisplayName("fill up to Limit No Exception is Thrown")
+        void push_fillUpToLimit_noExceptionIsThrown() throws StapelException{
+            // Arrange
+            for (int i = 0; i < 9; i++) {
+                objectUnderTest.push(i);
+            }
+
+            // Act + Assert
+            assertDoesNotThrow(()->objectUnderTest.push(0));
+        }
+
+        @Test
+        @DisplayName("overflow should throw StapelException with errormessage 'Overflow'")
+        void pushOverflowThrowsStapelException() throws StapelException{
+            // Arrange
+            for (int i = 0; i < 10; i++) {
+                objectUnderTest.push(i);
+            }
+            StapelException ex = assertThrows(StapelException.class, ()->objectUnderTest.push(0));
+            assertThat(ex.getMessage()).isEqualTo("Overflow");
+        }
+    }
 }
