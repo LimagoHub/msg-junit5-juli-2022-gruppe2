@@ -4,6 +4,7 @@ import de.msg.webapp.controller.dtos.PersonDto;
 import de.msg.webapp.controller.mapper.PersonDtoMapper;
 import de.msg.webapp.services.PersonenService;
 import de.msg.webapp.services.PersonenServiceException;
+import de.msg.webapp.services.models.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,6 +44,14 @@ public class PersonenController {
     @DeleteMapping(path="/{id}")
     public ResponseEntity<Void> loeschen(@PathVariable String id) throws PersonenServiceException{
         if(service.loesche(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping(path="", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> loeschen(@RequestBody PersonDto dto) throws PersonenServiceException{
+        if(service.loesche(mapper.convert(dto))){
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

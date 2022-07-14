@@ -127,4 +127,39 @@ class PersonenControllerTest {
 
 
     }
+
+    @Test
+    void test6() throws PersonenServiceException {
+
+
+        when(serviceMock.loesche(any(Person.class))).thenReturn(true);
+        when(serviceMock.loesche(anyString())).thenReturn(true);
+
+        ResponseEntity<Void> result = restTemplate.exchange("/personen/1", HttpMethod.DELETE, null,Void.class);
+
+
+
+        assertEquals(HttpStatus.OK,result.getStatusCode());
+
+
+
+    }
+
+    @Test
+    void test7() throws PersonenServiceException {
+
+        HttpEntity<PersonDto> entity = new HttpEntity<>(new PersonDto("1","John","Die"));
+
+        when(serviceMock.loesche(any(Person.class))).thenReturn(true);
+
+
+        ResponseEntity<Void> result = restTemplate.exchange("/personen", HttpMethod.DELETE, entity,Void.class);
+
+
+
+        assertEquals(HttpStatus.OK,result.getStatusCode());
+
+
+
+    }
 }
