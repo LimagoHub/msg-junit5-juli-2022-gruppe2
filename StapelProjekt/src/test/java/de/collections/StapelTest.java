@@ -1,5 +1,6 @@
 package de.collections;
 
+import mockit.MockUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
@@ -82,6 +85,38 @@ class StapelTest {
             }
             StapelException ex = assertThrows(StapelException.class, ()->objectUnderTest.push(0));
             assertThat(ex.getMessage()).isEqualTo("Overflow");
+        }
+    }
+
+    @Test
+    void fakeDemo() {
+
+        new MockUp<Bar>() {
+
+            @mockit.Mock
+            public String foo() {
+                return "Fake Foo";
+            }
+        };
+
+        new MockUp<UUID>() {
+
+            @mockit.Mock
+            public String toString() {
+                return "Fake Id";
+            }
+        };
+
+        System.out.println(UUID.randomUUID().toString());
+    }
+
+    static class Bar {
+        public String foo() {
+            return "echtes Foo";
+        }
+
+        public static String fooBar() {
+            return "echtes fooBar";
         }
     }
 }
